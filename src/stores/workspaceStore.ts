@@ -25,13 +25,18 @@ export const useWorkspaceStore = create<WorkspaceState>()(
         const state = get();
 
         // Если уже инициализировано - только валидируем
-        if (state.hasInitialized && state.selectedDealershipId !== null) {
-          // Проверяем что сохраненный автосалон доступен
-          const isValid = availableDealerships.some(d => d.id === state.selectedDealershipId);
-          if (isValid) {
-            return; // Все ок, оставляем как есть
+        if (state.hasInitialized) {
+          // Для owner null (Все автосалоны) - валидное состояние
+          if (user.role === 'owner' && state.selectedDealershipId === null) {
+            return;
           }
-          // Иначе сбрасываем на первый доступный
+          if (state.selectedDealershipId !== null) {
+            const isValid = availableDealerships.some(d => d.id === state.selectedDealershipId);
+            if (isValid) {
+              return; // Все ок, оставляем как есть
+            }
+          }
+          // Иначе сбрасываем на дефолт
         }
 
         let dealershipId: number | null = null;
@@ -40,19 +45,25 @@ export const useWorkspaceStore = create<WorkspaceState>()(
         if (user.role === 'employee') {
           dealershipId = user.dealership_id;
         }
-        // Для остальных ролей - первый из доступных или сохраненный
+        // Owner - по умолчанию "Все автосалоны"
+        else if (user.role === 'owner') {
+          if (state.selectedDealershipId !== null) {
+            const isValid = availableDealerships.some(d => d.id === state.selectedDealershipId);
+            dealershipId = isValid ? state.selectedDealershipId : null;
+          } else {
+            dealershipId = null;
+          }
+        }
+        // Для manager/observer - первый из доступных или сохраненный
         else if (availableDealerships.length > 0) {
-          // Если есть сохраненный и он доступен - используем его
           if (state.selectedDealershipId !== null) {
             const isValid = availableDealerships.some(d => d.id === state.selectedDealershipId);
             if (isValid) {
               dealershipId = state.selectedDealershipId;
             } else {
-              // Fallback на первый
               dealershipId = availableDealerships[0].id;
             }
           } else {
-            // Первый из доступных
             dealershipId = availableDealerships[0].id;
           }
         }
