@@ -350,9 +350,9 @@ export const DashboardPage: React.FC = () => {
 
       {/* Recent Tasks and Issues */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
-        {/* Recent Tasks */}
+        {/* Today's Tasks */}
         <Section
-          title="Задачи"
+          title="Задачи за сегодня"
           icon={<CalendarIcon />}
           action={
             <Button variant="ghost" size="sm" onClick={() => navigate('/tasks')}>
@@ -360,18 +360,22 @@ export const DashboardPage: React.FC = () => {
             </Button>
           }
         >
-          {dashboardData?.recent_tasks && dashboardData.recent_tasks.length > 0 ? (
+          {dashboardData?.today_tasks_list && dashboardData.today_tasks_list.length > 0 ? (
             <div className="space-y-3 max-h-[340px] sm:max-h-[400px] overflow-y-auto pr-1">
-              {dashboardData.recent_tasks.map((task) => (
+              {dashboardData.today_tasks_list.map((task) => (
                 <div
                   key={task.id}
-                  onClick={() => handleOpenTaskById(task.id)}
-                  className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600/50 transition-colors"
+                  onClick={() => handleOpenTask(task)}
+                  className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 p-3 rounded-lg cursor-pointer transition-colors ${
+                    task.status === 'overdue'
+                      ? 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800'
+                      : 'bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-600/50'
+                  }`}
                 >
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-gray-900 dark:text-white text-sm truncate">{task.title}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {formatTime(task.created_at)}
+                      {task.deadline ? formatDateTime(task.deadline) : formatTime(task.created_at)}
                     </p>
                   </div>
                   <StatusBadge status={task.status} type="task" />
@@ -381,7 +385,7 @@ export const DashboardPage: React.FC = () => {
           ) : (
             <EmptyState
               icon={<CalendarIcon />}
-              title="Нет недавних задач"
+              title="Нет задач за сегодня"
             />
           )}
         </Section>

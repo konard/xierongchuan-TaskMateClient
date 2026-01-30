@@ -44,11 +44,6 @@ export interface DashboardData {
     total_employees: number;
     on_shift_count: number;
   }>;
-  recent_tasks: Array<{
-    id: number;
-    title: string;
-    status: string;
-    created_at: string;
-  }>;
+  today_tasks_list?: Task[];
 }
 
