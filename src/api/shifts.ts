@@ -5,10 +5,26 @@ import type { PaginatedResponse } from '../types/api';
 export const shiftsApi = {
   // Get all shifts with filters and pagination
   getShifts: async (filters?: ShiftsFilters): Promise<PaginatedResponse<Shift>> => {
-    const response = await apiClient.get<PaginatedResponse<Shift>>('/shifts', {
+    const response = await apiClient.get<{
+      data: Shift[];
+      links: any;
+      meta: {
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+      };
+    }>('/shifts', {
       params: filters,
     });
-    return response.data;
+
+    return {
+      data: response.data.data,
+      current_page: response.data.meta.current_page,
+      last_page: response.data.meta.last_page,
+      per_page: response.data.meta.per_page,
+      total: response.data.meta.total,
+    };
   },
 
   // Get shift by ID
