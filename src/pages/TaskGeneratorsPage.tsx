@@ -338,7 +338,7 @@ export const TaskGeneratorsPage: React.FC = () => {
                   <div
                     key={generator.id}
                     onClick={() => setDetailsGenerator(generator)}
-                    className={`p-5 rounded-lg border transition-all cursor-pointer ${generator.is_active
+                    className={`p-5 rounded-xl border transition-all cursor-pointer ${generator.is_active
                       ? 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-md'
                       : 'bg-gray-50 dark:bg-gray-900/50 border-gray-300 dark:border-gray-600 opacity-75'
                       }`}
@@ -486,7 +486,7 @@ export const TaskGeneratorsPage: React.FC = () => {
                               handlePauseResume(generator);
                             }}
                             disabled={pauseMutation.isPending || resumeMutation.isPending}
-                            className={`p-1.5 rounded-lg transition-colors ${generator.is_active
+                            className={`p-1.5 rounded-xl transition-colors ${generator.is_active
                               ? 'text-yellow-600 hover:bg-yellow-50 dark:text-yellow-400 dark:hover:bg-yellow-900/20'
                               : 'text-green-600 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/20'
                               }`}
@@ -499,7 +499,7 @@ export const TaskGeneratorsPage: React.FC = () => {
                               e.stopPropagation();
                               handleEdit(generator);
                             }}
-                            className="p-1.5 text-gray-400 hover:text-accent-600 hover:bg-accent-50 dark:hover:bg-accent-900/20 rounded-lg transition-colors"
+                            className="p-1.5 text-gray-400 hover:text-accent-600 hover:bg-accent-50 dark:hover:bg-accent-900/20 rounded-xl transition-colors"
                             title="Редактировать"
                           >
                             <PencilIcon className="w-5 h-5" />
@@ -510,7 +510,7 @@ export const TaskGeneratorsPage: React.FC = () => {
                               handleDelete(generator);
                             }}
                             disabled={deleteMutation.isPending}
-                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
                             title="Удалить"
                           >
                             <TrashIcon className="w-5 h-5" />

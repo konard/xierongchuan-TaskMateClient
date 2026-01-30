@@ -419,7 +419,7 @@ export const TasksPage: React.FC = () => {
 
   const getTaskCardClass = (task: Task) => {
     const deadlineStatus = getDeadlineStatus(task.deadline);
-    const baseClasses = 'bg-white dark:bg-gray-800 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200';
+    const baseClasses = 'bg-white dark:bg-gray-800 rounded-xl shadow-sm border hover:shadow-md transition-all duration-200';
 
     switch (deadlineStatus) {
       case 'overdue': return `${baseClasses} border-red-200 bg-red-50 dark:bg-red-900/10 dark:border-red-800`;
@@ -632,7 +632,7 @@ export const TasksPage: React.FC = () => {
             <Card>
               <Card.Body className="space-y-4">
                 {tasksData?.data.map((task) => (
-                  <div key={task.id} className={`p-5 rounded-lg border hover:shadow-sm transition-all ${getTaskCardClass(task)}`}>
+                  <div key={task.id} className={`p-5 rounded-xl border hover:shadow-sm transition-all ${getTaskCardClass(task)}`}>
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0 pr-4">
                         <div className="flex items-center gap-3 mb-2 flex-wrap">

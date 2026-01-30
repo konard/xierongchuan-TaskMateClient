@@ -179,7 +179,7 @@ export const DashboardPage: React.FC = () => {
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 hidden sm:block">{stat.description}</p>
                 </div>
-                <div className={`${stat.color} rounded-lg p-2 sm:p-3 text-white flex-shrink-0`}>
+                <div className={`${stat.color} rounded-xl p-2 sm:p-3 text-white flex-shrink-0`}>
                   {stat.icon}
                 </div>
               </div>
@@ -244,7 +244,7 @@ export const DashboardPage: React.FC = () => {
                     {shiftsForDealership.length > 0 ? (
                       <div className={`space-y-2 ${shiftsForDealership.length > 3 ? 'max-h-[156px] overflow-y-auto pr-1' : ''}`}>
                         {shiftsForDealership.map((shift) => (
-                          <div key={shift.id} className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg bg-white dark:bg-gray-800/50">
+                          <div key={shift.id} className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-xl bg-white dark:bg-gray-800/50">
                             <div className="flex items-center gap-2 min-w-0">
                               <span className="relative flex h-2 w-2 flex-shrink-0">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -356,7 +356,7 @@ export const DashboardPage: React.FC = () => {
                 <div
                   key={task.id}
                   onClick={() => handleOpenTask(task)}
-                  className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 p-3 rounded-lg cursor-pointer transition-colors ${
+                  className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 p-3 rounded-xl cursor-pointer transition-colors ${
                     task.status === 'overdue'
                       ? 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800'
                       : 'bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-600/50'

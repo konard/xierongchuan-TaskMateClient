@@ -115,7 +115,7 @@ const PayloadViewer: React.FC<{ payload: Record<string, unknown>; action: string
         <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Изменённые поля:</h4>
         <div className="space-y-2">
           {changedFields.map((field) => (
-            <div key={field} className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+            <div key={field} className="bg-gray-50 dark:bg-gray-800 p-3 rounded-xl">
               <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{field}</div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -155,7 +155,7 @@ const PayloadViewer: React.FC<{ payload: Record<string, unknown>; action: string
   };
 
   return (
-    <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-96 text-sm">
+    <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-xl overflow-auto max-h-96 text-sm">
       {JSON.stringify(formatPayloadObject(payload), null, 2)}
     </pre>
   );

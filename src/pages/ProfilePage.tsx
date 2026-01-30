@@ -8,6 +8,7 @@ import {
   Card,
   Button,
   Input,
+  Skeleton,
   useToast, // Use our custom hook
 } from '../components/ui';
 import type { UpdateUserRequest } from '../types/user'; // Import type
@@ -66,13 +67,13 @@ export const ProfilePage: React.FC = () => {
   }, [user]);
 
   // Fetch shifts stats (Total)
-  const { data: shiftsData } = useQuery({
+  const { data: shiftsData, isLoading: isShiftsLoading } = useQuery({
     queryKey: ['my-shifts-count'],
     queryFn: () => shiftsApi.getMyShifts({ per_page: 1 }),
   });
 
   // Fetch comprehensive report stats for current month
-  const { data: reportData } = useQuery({
+  const { data: reportData, isLoading: isReportLoading } = useQuery({
     queryKey: ['my-report-stats', user?.id],
     queryFn: async () => {
       const { from, to } = getCurrentMonthRange();
@@ -174,24 +175,31 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="w-full border-t border-gray-100 dark:border-gray-700 pt-6">
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">
-                      {shiftsData?.total || 0}
+                {isShiftsLoading || isReportLoading ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <Skeleton variant="rectangular" height={48} />
+                    <Skeleton variant="rectangular" height={48} />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                      <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">
+                        {shiftsData?.total || 0}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">
+                        Смен
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">
-                      Смен
+                    <div>
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        {myStats?.completed_tasks || 0}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">
+                        Задач
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                      {myStats?.completed_tasks || 0}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">
-                      Задач
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
 
               <Button
@@ -219,7 +227,7 @@ export const ProfilePage: React.FC = () => {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as 'info' | 'security' | 'stats')}
                     className={`
-                      flex-1 flex items-center justify-center gap-2 py-2.5 px-3 sm:px-4 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap
+                      flex-1 flex items-center justify-center gap-2 py-2.5 px-3 sm:px-4 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap
                       ${isActive
                         ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/5'
                         : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200/50 dark:hover:bg-gray-700/50'
@@ -271,7 +279,7 @@ export const ProfilePage: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Автосалон
                     </label>
-                    <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-md border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 flex items-center gap-2">
+                    <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 flex items-center gap-2">
                       <BriefcaseIcon className="w-5 h-5" />
                       {user.dealership?.name || user.dealerships?.map(d => d.name).join(', ') || 'Не привязан'}
                     </div>
@@ -291,7 +299,7 @@ export const ProfilePage: React.FC = () => {
 
               {activeTab === 'security' && (
                 <form onSubmit={handleUpdatePassword} className="space-y-6">
-                  <div className="alert bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
+                  <div className="alert bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 mb-6">
                     <div className="flex gap-3">
                       <KeyIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-500 shrink-0" />
                       <div className="text-sm text-yellow-800 dark:text-yellow-200">
@@ -340,7 +348,16 @@ export const ProfilePage: React.FC = () => {
                 </form>
               )}
 
-              {activeTab === 'stats' && (
+              {activeTab === 'stats' && (isShiftsLoading || isReportLoading) && (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <Skeleton variant="card" count={4} />
+                  </div>
+                  <Skeleton variant="card" height={200} />
+                </div>
+              )}
+
+              {activeTab === 'stats' && !isShiftsLoading && !isReportLoading && (
                 <div className="space-y-8">
                   {/* Key Metrics Grid */}
 
@@ -476,7 +493,7 @@ export const ProfilePage: React.FC = () => {
                                 { value: myStats.overdue_tasks, color: '#ef4444', label: 'Просрочено' },
                               ]}
                             />
-                            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
+                            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl">
                               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Примечание</div>
                               <p className="text-xs text-gray-600 dark:text-gray-300">
                                 Статистика отображается за текущий календарный месяц. Для просмотра полной истории используйте раздел "Отчеты".

@@ -237,7 +237,7 @@ export const ArchivedTasksPage: React.FC = () => {
   ];
 
   const getTaskCardClass = (task: ArchivedTask) => {
-    const baseClasses = 'p-5 rounded-lg border hover:shadow-sm transition-all';
+    const baseClasses = 'p-5 rounded-xl border hover:shadow-sm transition-all';
 
     switch (task.archive_reason) {
       case 'completed':

@@ -70,6 +70,7 @@ export const LinksPage: React.FC = () => {
       per_page: limit,
       search: searchTerm
     }),
+    placeholderData: (prev) => prev,
   });
 
   const createMutation = useMutation({
@@ -252,7 +253,7 @@ export const LinksPage: React.FC = () => {
               {Object.entries(groupedLinks).map(([category, categoryLinks]) => (
                 <div key={category}>
                   <div className="flex items-center mb-4">
-                    <div className={`${getCategoryColor(category)} rounded-lg p-2 mr-3 text-white`}>
+                    <div className={`${getCategoryColor(category)} rounded-xl p-2 mr-3 text-white`}>
                       {getCategoryIcon(category)}
                     </div>
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -268,7 +269,7 @@ export const LinksPage: React.FC = () => {
                         <Card.Body>
                           <div className="flex justify-between items-start mb-3">
                             <div className="flex items-center">
-                              <div className={`${getCategoryColor(link.category || 'general')} rounded-lg p-2 mr-3 text-white`}>
+                              <div className={`${getCategoryColor(link.category || 'general')} rounded-xl p-2 mr-3 text-white`}>
                                 {getCategoryIcon(link.category || 'general')}
                               </div>
                               <div>
@@ -319,10 +320,10 @@ export const LinksPage: React.FC = () => {
             <Card>
               <Card.Body className="space-y-4">
                 {linksData?.data.map((link) => (
-                  <div key={link.id} className="p-5 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-sm hover:border-accent-200 dark:hover:border-accent-500 transition-all">
+                  <div key={link.id} className="p-5 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-sm hover:border-accent-200 dark:hover:border-accent-500 transition-all">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center flex-1 min-w-0 pr-4">
-                        <div className={`${getCategoryColor(link.category || 'general')} rounded-lg p-3 mr-4 text-white flex-shrink-0`}>
+                        <div className={`${getCategoryColor(link.category || 'general')} rounded-xl p-3 mr-4 text-white flex-shrink-0`}>
                           {getCategoryIcon(link.category || 'general')}
                         </div>
                         <div className="flex-1 min-w-0">

@@ -443,7 +443,7 @@ export const SettingsPage: React.FC = () => {
                           {permissions.canManageDealershipSettings && (
                             <div>
                               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Текущая конфигурация</label>
-                              <div className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center">
+                              <div className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-xl border border-gray-200 dark:border-gray-600 flex items-center">
                                 <div className={`w-2 h-2 rounded-full mr-2 ${selectedDealershipId ? 'bg-green-500' : 'bg-accent-500'}`}></div>
                                 <span className="text-sm text-gray-700 dark:text-gray-300">
                                   {selectedDealershipId
@@ -511,7 +511,7 @@ export const SettingsPage: React.FC = () => {
                                       key={themeOption.value}
                                       type="button"
                                       onClick={() => setTheme(themeOption.value as 'light' | 'dark' | 'system')}
-                                      className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border font-medium transition-all ${pendingTheme === themeOption.value
+                                      className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl border font-medium transition-all ${pendingTheme === themeOption.value
                                         ? 'bg-accent-50 border-accent-500 text-accent-700 dark:bg-gray-700 dark:border-accent-500 dark:text-accent-400'
                                         : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-750'
                                         }`}
@@ -541,7 +541,7 @@ export const SettingsPage: React.FC = () => {
                                       key={option.value}
                                       type="button"
                                       onClick={() => setAccentColor(option.value)}
-                                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border transition-all ${
+                                      className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${
                                         pendingAccentColor === option.value
                                           ? 'border-accent-500 ring-2 ring-accent-500/20 bg-accent-50 dark:bg-gray-700'
                                           : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:bg-gray-750'
@@ -582,9 +582,9 @@ export const SettingsPage: React.FC = () => {
                                     step="5"
                                     value={notificationConfig.rows_per_page || 10}
                                     onChange={(e) => setNotificationConfig({ ...notificationConfig, rows_per_page: parseInt(e.target.value) })}
-                                    className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                                    className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-xl appearance-none cursor-pointer"
                                   />
-                                  <div className="w-16 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-lg font-mono font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700">
+                                  <div className="w-16 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-xl font-mono font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700">
                                     {notificationConfig.rows_per_page || 10}
                                   </div>
                                 </div>
@@ -907,7 +907,7 @@ export const SettingsPage: React.FC = () => {
                       </div>
 
                       {/* Информационное сообщение */}
-                      <div className="mb-6 bg-accent-50 dark:bg-gray-700/50 border border-accent-200 dark:border-gray-600 rounded-lg p-4">
+                      <div className="mb-6 bg-accent-50 dark:bg-gray-700/50 border border-accent-200 dark:border-gray-600 rounded-xl p-4">
                         <p className="text-sm text-accent-800 dark:text-accent-300">
                           <strong>Внимание:</strong> Все настройки на этой странице применяются глобально ко всей системе,
                           независимо от выбранного дилерского центра.

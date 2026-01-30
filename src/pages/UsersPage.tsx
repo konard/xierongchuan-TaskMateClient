@@ -254,7 +254,7 @@ export const UsersPage: React.FC = () => {
             <Card>
               <Card.Body className="space-y-4">
                 {usersData?.data.map((user) => (
-                  <div key={user.id} className={`p-4 sm:p-5 rounded-lg border hover:shadow-sm transition-all bg-white dark:bg-gray-800 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 border-gray-200 dark:border-gray-700`}>
+                  <div key={user.id} className={`p-4 sm:p-5 rounded-xl border hover:shadow-sm transition-all bg-white dark:bg-gray-800 rounded-xl shadow-sm border hover:shadow-md transition-all duration-200 border-gray-200 dark:border-gray-700`}>
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-3">
@@ -329,7 +329,7 @@ export const UsersPage: React.FC = () => {
           {viewMode === 'grid' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {usersData?.data.map((user) => (
-                <div key={user.id} className={`p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 border-gray-200 dark:border-gray-700`}>
+                <div key={user.id} className={`p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border hover:shadow-md transition-all duration-200 border-gray-200 dark:border-gray-700`}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center">
                       <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold text-lg ${getAvatarColor(user.role)}`}>

@@ -394,7 +394,7 @@ export const PendingReviewPage: React.FC = () => {
                     Выберите способ отклонения:
                   </p>
                   <button
-                    className="w-full p-4 text-left rounded-lg border border-gray-200 dark:border-gray-600 hover:border-red-300 dark:hover:border-red-700 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+                    className="w-full p-4 text-left rounded-xl border border-gray-200 dark:border-gray-600 hover:border-red-300 dark:hover:border-red-700 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
                     onClick={() => setRejectModal({ ...rejectModal, mode: 'bulk' })}
                   >
                     <div className="font-medium text-gray-900 dark:text-white mb-1">
@@ -405,7 +405,7 @@ export const PendingReviewPage: React.FC = () => {
                     </div>
                   </button>
                   <button
-                    className="w-full p-4 text-left rounded-lg border border-gray-200 dark:border-gray-600 hover:border-accent-300 dark:hover:border-accent-700 hover:bg-accent-50 dark:hover:bg-accent-900/10 transition-colors"
+                    className="w-full p-4 text-left rounded-xl border border-gray-200 dark:border-gray-600 hover:border-accent-300 dark:hover:border-accent-700 hover:bg-accent-50 dark:hover:bg-accent-900/10 transition-colors"
                     onClick={() => {
                       setRejectModal(null);
                       setRejectReason('');
@@ -456,7 +456,7 @@ export const PendingReviewPage: React.FC = () => {
                 </div>
 
                 {rejectModal && rejectModal.responses.length > 1 && (
-                  <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
+                  <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 p-3 rounded-xl">
                     <p className="font-medium mb-1">Исполнители:</p>
                     <ul className="list-disc list-inside space-y-0.5">
                       {rejectModal.responses.map(r => (

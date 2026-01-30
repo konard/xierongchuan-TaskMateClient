@@ -218,7 +218,7 @@ export const ReportsPage: React.FC = () => {
             <Card>
               <Card.Body>
                 <div className="flex items-center">
-                  <div className="p-3 bg-accent-100 dark:bg-gray-700 rounded-lg">
+                  <div className="p-3 bg-accent-100 dark:bg-gray-700 rounded-xl">
                     <DocumentTextIcon className="w-6 h-6 text-accent-600 dark:text-accent-400" />
                   </div>
                   <div className="ml-4">
@@ -232,7 +232,7 @@ export const ReportsPage: React.FC = () => {
             <Card>
               <Card.Body>
                 <div className="flex items-center">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
                     <CheckCircleIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="ml-4">
@@ -249,7 +249,7 @@ export const ReportsPage: React.FC = () => {
             <Card>
               <Card.Body>
                 <div className="flex items-center">
-                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-xl">
                     <XCircleIcon className="w-6 h-6 text-red-600 dark:text-red-400" />
                   </div>
                   <div className="ml-4">
@@ -266,7 +266,7 @@ export const ReportsPage: React.FC = () => {
             <Card>
               <Card.Body>
                 <div className="flex items-center">
-                  <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+                  <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
                     <ClockIcon className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
                   </div>
                   <div className="ml-4">
@@ -356,7 +356,7 @@ export const ReportsPage: React.FC = () => {
                   <div
                     key={issue.issue_type}
                     onClick={() => setSelectedIssue({ type: issue.issue_type, description: issue.description })}
-                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600/50 transition-colors"
+                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600/50 transition-colors"
                   >
                     <div className="flex items-center space-x-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold ${index === 0 ? 'bg-red-500' : index === 1 ? 'bg-yellow-500' : 'bg-orange-500'

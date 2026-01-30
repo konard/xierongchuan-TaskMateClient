@@ -69,7 +69,7 @@ export const DealershipsPage: React.FC = () => {
               </div>
               <button
                 onClick={handleFormClose}
-                className="inline-flex items-center p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="inline-flex items-center p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors"
               >
                 <XMarkIcon className="w-5 h-5" />
               </button>

@@ -30,6 +30,9 @@ import {
   ViewModeToggle,
   FilterPanel,
   Pagination,
+  Skeleton,
+  ErrorState,
+  EmptyState,
 } from '../components/ui';
 import { Select } from '../components/ui/Select';
 import type { SelectOptionGroup } from '../components/ui/Select';
@@ -103,8 +106,8 @@ export const ShiftsPage: React.FC = () => {
   };
 
   const { data: shiftsData, isLoading, error } = useShifts(shiftsQueryFilters);
-  const { data: currentShiftsData } = useCurrentShifts(workspaceDealershipId ?? undefined);
-  const { data: statisticsData } = useShiftsStatistics(
+  const { data: currentShiftsData, isLoading: isCurrentShiftsLoading } = useCurrentShifts(workspaceDealershipId ?? undefined);
+  const { data: statisticsData, isLoading: isStatisticsLoading } = useShiftsStatistics(
     workspaceDealershipId ? { dealership_id: workspaceDealershipId } : undefined
   );
   const currentShifts = React.useMemo(() => currentShiftsData?.data || [], [currentShiftsData]);
@@ -193,46 +196,52 @@ export const ShiftsPage: React.FC = () => {
       </PageHeader>
 
       {/* 1. Статистика */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <ChartBarIcon className="w-4 h-4 text-gray-400" />
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Всего смен</span>
-          </div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics?.total_shifts ?? '—'}</p>
-          <p className="text-xs text-gray-400 mt-0.5">за 7 дней</p>
+      {isStatisticsLoading || isCurrentShiftsLoading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <Skeleton variant="card" count={4} />
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <UsersIcon className="w-4 h-4 text-green-500" />
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Открыто сейчас</span>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-1">
+              <ChartBarIcon className="w-4 h-4 text-gray-400" />
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Всего смен</span>
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics?.total_shifts ?? '—'}</p>
+            <p className="text-xs text-gray-400 mt-0.5">за 7 дней</p>
           </div>
-          <p className="text-2xl font-bold text-green-600 dark:text-green-400">{currentShifts.length}</p>
-          <p className="text-xs text-gray-400 mt-0.5">активных</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <ExclamationTriangleIcon className="w-4 h-4 text-red-500" />
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Опоздания</span>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-1">
+              <UsersIcon className="w-4 h-4 text-green-500" />
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Открыто сейчас</span>
+            </div>
+            <p className="text-2xl font-bold text-green-600 dark:text-green-400">{currentShifts.length}</p>
+            <p className="text-xs text-gray-400 mt-0.5">активных</p>
           </div>
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400">{statistics?.late_shifts ?? '—'}</p>
-          <p className="text-xs text-gray-400 mt-0.5">за 7 дней</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <ClockIcon className="w-4 h-4 text-orange-500" />
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Ср. опоздание</span>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-1">
+              <ExclamationTriangleIcon className="w-4 h-4 text-red-500" />
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Опоздания</span>
+            </div>
+            <p className="text-2xl font-bold text-red-600 dark:text-red-400">{statistics?.late_shifts ?? '—'}</p>
+            <p className="text-xs text-gray-400 mt-0.5">за 7 дней</p>
           </div>
-          <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-            {statistics?.avg_late_minutes != null ? `${Math.round(statistics.avg_late_minutes)}` : '—'}
-          </p>
-          <p className="text-xs text-gray-400 mt-0.5">минут</p>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-1">
+              <ClockIcon className="w-4 h-4 text-orange-500" />
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Ср. опоздание</span>
+            </div>
+            <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+              {statistics?.avg_late_minutes != null ? `${Math.round(statistics.avg_late_minutes)}` : '—'}
+            </p>
+            <p className="text-xs text-gray-400 mt-0.5">минут</p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Текущие смены — сгруппированные по автосалонам */}
       {shiftsByDealership.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg mb-6 border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 shadow-sm rounded-xl mb-6 border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
             <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
               Текущие смены ({currentShifts.length})
@@ -258,7 +267,7 @@ export const ShiftsPage: React.FC = () => {
                   {shifts.map((shift) => (
                     <div
                       key={shift.id}
-                      className="border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700/30 cursor-pointer hover:shadow-sm transition-all"
+                      className="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-700/30 cursor-pointer hover:shadow-sm transition-all"
                       onClick={() => toggleExpand(shift.id)}
                     >
                       <div className="p-3">
@@ -395,7 +404,7 @@ export const ShiftsPage: React.FC = () => {
       </FilterPanel>
 
       {/* 4. История смен */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-base font-semibold text-gray-900 dark:text-white">
             История смен
@@ -404,26 +413,25 @@ export const ShiftsPage: React.FC = () => {
 
         <div className="p-6">
           {isLoading ? (
-            <div className="animate-pulse space-y-3">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-16 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              ))}
-            </div>
+            <Skeleton variant="list" count={5} />
           ) : error ? (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-              <p className="text-red-800 dark:text-red-200 text-sm">Ошибка загрузки смен</p>
-            </div>
+            <ErrorState
+              title="Ошибка загрузки смен"
+              description="Не удалось загрузить данные о сменах"
+            />
           ) : shiftsData?.data.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500 dark:text-gray-400 text-sm">Смены не найдены</p>
-            </div>
+            <EmptyState
+              icon={<ClockIcon />}
+              title="Смены не найдены"
+              description={hasActiveFilters ? 'Попробуйте изменить фильтры' : undefined}
+            />
           ) : (
             <>
               {/* Список */}
               {viewMode === 'list' && (
                 <div className="space-y-3">
                   {shiftsData?.data.map((shift) => (
-                    <div key={shift.id} className="p-3 sm:p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-sm dark:hover:bg-gray-700/50 transition-all">
+                    <div key={shift.id} className="p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-sm dark:hover:bg-gray-700/50 transition-all">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center flex-wrap gap-2 mb-1.5">
@@ -470,7 +478,7 @@ export const ShiftsPage: React.FC = () => {
               {viewMode === 'grid' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {shiftsData?.data.map((shift) => (
-                    <div key={shift.id} className="p-3 sm:p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:bg-gray-700/50 transition-shadow">
+                    <div key={shift.id} className="p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:bg-gray-700/50 transition-shadow">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">{shift.user?.full_name}</h3>
                         {getStatusBadge(shift.status)}
