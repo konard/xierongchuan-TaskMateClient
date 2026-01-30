@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useShifts, useCurrentShifts, useShiftsStatistics } from '../hooks/useShifts';
 import { useWorkspace } from '../hooks/useWorkspace';
@@ -31,6 +31,8 @@ import {
   FilterPanel,
   Pagination,
 } from '../components/ui';
+import { Select } from '../components/ui/Select';
+import type { SelectOptionGroup } from '../components/ui/Select';
 import { ShiftPhotoViewer } from '../components/shifts/ShiftPhotoViewer';
 
 export const ShiftsPage: React.FC = () => {
@@ -63,9 +65,34 @@ export const ShiftsPage: React.FC = () => {
     queryKey: ['users-for-shift-filter', effectiveDealershipId],
     queryFn: () => usersApi.getUsers({
       per_page: 100,
-      dealership_id: effectiveDealershipId,
+      ...(effectiveDealershipId
+        ? { dealership_id: effectiveDealershipId }
+        : { orphan_only: true }),
     }),
   });
+
+  // Группировка сотрудников по ролям для Select
+  const employeeOptions: SelectOptionGroup[] = useMemo(() => {
+    if (!usersData?.data?.length) return [];
+    const roleLabels: Record<string, string> = {
+      owner: 'Владельцы',
+      manager: 'Управляющие',
+      observer: 'Наблюдающие',
+      employee: 'Сотрудники',
+    };
+    const grouped: Record<string, typeof usersData.data> = {
+      owner: [], manager: [], observer: [], employee: [],
+    };
+    usersData.data.forEach((u) => {
+      if (u.role && grouped[u.role]) grouped[u.role].push(u);
+    });
+    return (['owner', 'manager', 'observer', 'employee'] as const)
+      .filter((r) => grouped[r].length > 0)
+      .map((r) => ({
+        label: roleLabels[r],
+        options: grouped[r].map((u) => ({ value: String(u.id), label: u.full_name })),
+      }));
+  }, [usersData]);
 
   const shiftsQueryFilters: ShiftsFilters = {
     ...filters,
@@ -357,16 +384,12 @@ export const ShiftsPage: React.FC = () => {
           )}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Сотрудник</label>
-            <select
+            <Select
               value={employeeFilter}
               onChange={(e) => { setEmployeeFilter(e.target.value); setPage(1); }}
-              className={selectClass}
-            >
-              <option value="">Все</option>
-              {usersData?.data?.map((u) => (
-                <option key={u.id} value={u.id}>{u.full_name}</option>
-              ))}
-            </select>
+              options={employeeOptions}
+              placeholder="Все сотрудники"
+            />
           </div>
         </FilterPanel.Grid>
       </FilterPanel>
