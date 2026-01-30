@@ -43,7 +43,7 @@ export const SidebarMini: React.FC<SidebarMiniProps> = ({
             // показываем элементы напрямую
             if (!group.collapsible && group.items.length <= 2) {
               return (
-                <div key={group.id} className="space-y-1 px-2">
+                <div key={group.id} className="space-y-1 px-3">
                   {group.items.map((item) => (
                     <SidebarTooltip key={item.id} content={item.label}>
                       <SidebarItem

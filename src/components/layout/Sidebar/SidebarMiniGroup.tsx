@@ -94,7 +94,7 @@ export const SidebarMiniGroup: React.FC<SidebarMiniGroupProps> = ({
   };
 
   return (
-    <div className="px-2">
+    <div className="px-3">
       <SidebarTooltip content={title} disabled={isPopoverOpen}>
         <button
           ref={buttonRef}
