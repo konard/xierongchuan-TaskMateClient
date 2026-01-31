@@ -473,6 +473,11 @@ export const ReportsPage: React.FC = () => {
         dateFrom={dateRange.from}
         dateTo={dateRange.to}
         dealershipId={workspaceDealershipId}
+        onSelectEmployee={(employeeId) => {
+          setSelectedIssue(null);
+          const emp = reportData?.employees_performance?.find((e: EmployeePerformance) => e.employee_id === employeeId);
+          if (emp) setSelectedEmployee(emp);
+        }}
       />
     </PageContainer>
   );

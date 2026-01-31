@@ -18,6 +18,7 @@ interface IssueDetailsModalProps {
   dateFrom: string;
   dateTo: string;
   dealershipId?: number | null;
+  onSelectEmployee?: (employeeId: number) => void;
 }
 
 const ISSUE_TITLES: Record<string, string> = {
@@ -38,6 +39,7 @@ export const IssueDetailsModal: React.FC<IssueDetailsModalProps> = ({
   dateFrom,
   dateTo,
   dealershipId,
+  onSelectEmployee,
 }) => {
   const navigate = useNavigate();
 
@@ -58,18 +60,20 @@ export const IssueDetailsModal: React.FC<IssueDetailsModalProps> = ({
 
     switch (item.type) {
       case 'task':
-        params.append('search', item.title);
+        params.append('task_id', item.id.toString());
         navigate(`/tasks?${params.toString()}`);
         break;
       case 'shift':
         if (item.user_id) {
-          params.append('assigned_to', item.user_id.toString());
-          navigate(`/tasks?${params.toString()}`);
+          params.append('user_id', item.user_id.toString());
+          params.append('is_late', 'true');
+          navigate(`/shifts?${params.toString()}`);
         }
         break;
       case 'user':
-        params.append('assigned_to', item.id.toString());
-        navigate(`/tasks?${params.toString()}`);
+        if (onSelectEmployee) {
+          onSelectEmployee(item.id);
+        }
         break;
     }
   };

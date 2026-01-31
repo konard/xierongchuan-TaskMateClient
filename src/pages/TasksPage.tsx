@@ -53,7 +53,7 @@ export const TasksPage: React.FC = () => {
   const { dealershipId: workspaceDealershipId } = useWorkspace();
   const queryClient = useQueryClient();
   const { showToast } = useToast();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -81,6 +81,21 @@ export const TasksPage: React.FC = () => {
   useEffect(() => {
     setPage(1);
   }, [filters, workspaceDealershipId]);
+
+  useEffect(() => {
+    const taskId = searchParams.get('task_id');
+    if (taskId) {
+      tasksApi.getTask(Number(taskId)).then((task) => {
+        setSelectedTask(task);
+        setIsDetailsModalOpen(true);
+      });
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete('task_id');
+        return next;
+      }, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const { data: tasksData, isLoading, error, refetch } = useQuery({
     queryKey: ['tasks', filters, workspaceDealershipId, page, limit],

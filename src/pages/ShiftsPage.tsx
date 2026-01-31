@@ -51,7 +51,7 @@ export const ShiftsPage: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [expandedShiftId, setExpandedShiftId] = useState<number | null>(null);
   const [dealershipFilter, setDealershipFilter] = useState<string>('');
-  const [employeeFilter, setEmployeeFilter] = useState<string>('');
+  const [employeeFilter, setEmployeeFilter] = useState<string>(searchParams.get('user_id') || '');
 
   // Эффективный dealership_id: из навбара или из фильтра
   const effectiveDealershipId = workspaceDealershipId ?? (dealershipFilter ? Number(dealershipFilter) : undefined);
