@@ -21,6 +21,7 @@ import {
   Skeleton,
   ErrorState,
   PageHeader,
+  EmptyState,
 } from '../components/ui';
 import { useToast } from '../components/ui/Toast';
 
@@ -739,9 +740,10 @@ export const SettingsPage: React.FC = () => {
                       </div>
 
                       {!selectedDealershipId && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Выберите автосалон для управления расписанием смен
-                        </p>
+                        <EmptyState
+                          title="Выберите автосалон"
+                          description="Для управления расписанием смен выберите автосалон в навбаре"
+                        />
                       )}
 
                       {/* Add new schedule form */}
@@ -799,7 +801,7 @@ export const SettingsPage: React.FC = () => {
                       )}
 
                       {/* Existing schedules */}
-                      {shiftSchedulesLoading ? (
+                      {selectedDealershipId && (shiftSchedulesLoading ? (
                         <Skeleton variant="list" count={2} />
                       ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -873,7 +875,7 @@ export const SettingsPage: React.FC = () => {
                             </p>
                           )}
                         </div>
-                      )}
+                      ))}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
