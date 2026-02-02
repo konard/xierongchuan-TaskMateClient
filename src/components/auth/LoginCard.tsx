@@ -5,12 +5,12 @@ interface LoginCardProps {
 }
 
 /**
- * Glass morphism карточка для формы логина.
+ * Карточка для формы логина.
  */
 export const LoginCard: React.FC<LoginCardProps> = ({ children }) => {
   return (
     <div className="w-full max-w-md px-4">
-      <div className="glass-card rounded-2xl p-8 animate-card-entrance">
+      <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
         {children}
       </div>
     </div>
