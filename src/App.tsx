@@ -22,7 +22,7 @@ import { DealershipsPage } from './pages/DealershipsPage';
 import { NotificationSettingsPage } from './pages/NotificationSettingsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { debugAuth } from './utils/debug';
-import './index.css';
+
 
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './components/ui/Toast';
